@@ -1,0 +1,61 @@
+name: Node.js API CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Run Automated Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: task_management
+          POSTGRES_USER: task_user
+          POSTGRES_PASSWORD: test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U task_user -d task_management"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      NODE_ENV: test
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: task_management
+      DB_USER: task_user
+      DB_PASSWORD: test_password
+      JWT_SECRET: test_jwt_secret_for_github_actions
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Initialize Database
+        run: |
+          PGPASSWORD=test_password psql \
+            -h localhost \
+            -p 5432 \
+            -U task_user \
+            -d task_management \
+            -f database/init.sql
+
+      - name: Run Automated Tests
+        run: npm test

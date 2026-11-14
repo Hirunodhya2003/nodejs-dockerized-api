@@ -19,7 +19,7 @@ services:
       retries: 5
 
   backend:
-    build: .
+    image: ${BACKEND_IMAGE:-nodejs-api-backend:1}
     container_name: nodejs-api-backend
     restart: unless-stopped
     ports:
@@ -38,7 +38,7 @@ services:
         condition: service_healthy
 
   frontend:
-    build: ./frontend
+    image: ${FRONTEND_IMAGE:-nodejs-api-frontend:1}
     container_name: nodejs-api-frontend
     restart: unless-stopped
     ports:

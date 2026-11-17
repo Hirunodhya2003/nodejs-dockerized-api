@@ -1,179 +1,135 @@
-# 🐳 Node.js Dockerized REST API
+# 🚀 Node.js Dockerized Task Management Application
 
-A simple and portable REST API built with **Node.js and Express**, containerized using **Docker** for consistent and reliable application deployment across different environments.
+A full-stack Task Management application built with **React, Node.js, Express, and PostgreSQL**, containerized using Docker and deployed on **AWS ECS Fargate**.
+
+This project demonstrates practical implementation of containerization, REST API development, database integration, CI/CD automation, automated testing, cloud deployment, monitoring, and alerting.
+
+---
 
 ## 📌 Project Overview
 
-This project demonstrates how to package a Node.js application into a Docker container.
+The application allows users to register, log in, and manage their tasks through a web-based dashboard.
 
-The application provides a simple Task Management REST API and can be built, deployed, and executed using Docker without requiring Node.js to be installed directly on the host system.
+The project goes beyond basic application development by implementing DevOps practices to automate builds, deploy containerized services, monitor application health, and detect backend failures.
 
-## 🎯 Project Objective
+## 🎯 Key Features
 
-The main objective is to demonstrate **application containerization** using Docker.
+### Application Features
+- User Registration and Authentication
+- User Login
+- Task Creation
+- View All Tasks
+- Update Task Details
+- Manage Task Status
+- Task Management Dashboard
+- PostgreSQL Database Integration
 
-This project covers:
+### DevOps Features
+- Docker Containerization
+- Docker Compose
+- Jenkins CI/CD Pipeline
+- GitHub Webhook Integration
+- Automated API Testing
+- AWS ECS Fargate Deployment
+- Amazon ECR Image Management
+- Amazon RDS PostgreSQL
+- Prometheus Monitoring
+- Grafana Dashboards
+- Email Alerting
 
-* Building a Node.js REST API
-* Creating a Dockerfile
-* Building a Docker image
-* Running the application inside a Docker container
-* Mapping container ports to the host machine
-* Testing REST API endpoints
-* Preparing the application for portable deployment
+---
+
+## 🏗️ System Architecture
+
+```text
+                    Users
+                      |
+                      v
+              React Frontend
+                      |
+                      v
+             Node.js REST API
+                 (Express)
+                      |
+                      v
+              PostgreSQL DB
+
+
+             CI/CD Pipeline
+                      |
+                 GitHub
+                      |
+                Webhook
+                      |
+                  Jenkins
+                      |
+              Automated Tests
+                      |
+               Docker Build
+                      |
+                 Amazon ECR
+                      |
+             Amazon ECS Fargate
+                      |
+             CloudWatch Logs
+
+
+              Monitoring Stack
+                      |
+                  Prometheus
+                      |
+                   Grafana
+                      |
+                Email Alerts
+```
+
+---
 
 ## 🛠️ Technologies Used
 
-* **Node.js**
-* **Express.js**
-* **Docker**
-* **JavaScript**
-* **REST API**
-* **Git & GitHub**
+| Category | Technologies |
+|---|---|
+| Frontend | React, JavaScript, HTML, CSS |
+| Backend | Node.js, Express.js |
+| Database | PostgreSQL |
+| Containerization | Docker, Docker Compose |
+| CI/CD | Jenkins, GitHub Actions, GitHub Webhooks |
+| Cloud | AWS |
+| Container Registry | Amazon ECR |
+| Container Orchestration | Amazon ECS Fargate |
+| Database Hosting | Amazon RDS |
+| Logging | Amazon CloudWatch |
+| Monitoring | Prometheus |
+| Visualization | Grafana |
+| Testing | Automated API Tests |
+| Version Control | Git, GitHub |
 
-## 📂 Project Structure
+---
 
-```text
-nodejs-dockerized-api/
-│
-├── src/
-│   └── server.js
-│
-├── .dockerignore
-├── .gitignore
-├── Dockerfile
-├── package.json
-├── package-lock.json
-└── README.md
-```
+## 🐳 Docker Containerization
 
-## 🐳 Dockerfile
+Docker is used to package the application components into containers.
 
-The application uses a lightweight Node.js Alpine image.
+The project uses:
+- Backend Docker container
+- Frontend Docker container
+- PostgreSQL database container
 
-```dockerfile
-FROM node:20-alpine
+Docker Compose is used to manage the local multi-container environment.
 
-WORKDIR /app
+### Docker Commands
 
-COPY package*.json ./
-
-RUN npm ci --omit=dev
-
-COPY src ./src
-
-EXPOSE 3000
-
-CMD ["node", "src/server.js"]
-```
-
-## 🚀 Run the Application Without Docker
-
-Install dependencies:
+Build images:
 
 ```bash
-npm install
+docker compose build
 ```
 
-Start the application:
+Start services:
 
 ```bash
-node src/server.js
+docker compose up -d
 ```
-
-The API will be available at:
-
-```text
-http://localhost:3000
-```
-
-## 🐳 Build the Docker Image
-
-Build the Docker image using:
-
-```bash
-docker build -t nodejs-dockerized-api .
-```
-
-Verify the image:
-
-```bash
-docker images
-```
-
-## ▶️ Run the Docker Container
-
-Run the application as a container:
-
-```bash
-docker run -d --name nodejs-api -p 3000:3000 nodejs-dockerized-api
-```
-
-Check the running container:
-
-```bash
-docker ps
-```
-
-## 🔌 API Endpoints
-
-| Method | Endpoint         | Description              |
-| ------ | ---------------- | ------------------------ |
-| GET    | `/`              | Check application status |
-| GET    | `/api/tasks`     | Get all tasks            |
-| POST   | `/api/tasks`     | Create a new task        |
-| DELETE | `/api/tasks/:id` | Delete a task            |
-
-## 🧪 API Testing
-
-### Check Application Status
-
-```bash
-curl http://localhost:3000
-```
-
-### Get All Tasks
-
-```bash
-curl http://localhost:3000/api/tasks
-```
-
-### Create a Task
-
-```bash
-curl -X POST http://localhost:3000/api/tasks \
--H "Content-Type: application/json" \
--d '{"title":"Learn Docker Containerization"}'
-```
-
-### Delete a Task
-
-```bash
-curl -X DELETE http://localhost:3000/api/tasks/1
-```
-
-## 🏗️ Architecture
-
-```text
-                Node.js Application
-                         │
-                         ▼
-                    Dockerfile
-                         │
-                         ▼
-                  Docker Image
-                         │
-                         ▼
-                 Docker Container
-                         │
-                         ▼
-                   Port 3000
-                         │
-                         ▼
-                    REST API
-```
-
-## 🔍 Docker Container Verification
 
 View running containers:
 
@@ -181,45 +137,258 @@ View running containers:
 docker ps
 ```
 
-View application logs:
+View logs:
 
 ```bash
-docker logs nodejs-api
+docker compose logs
 ```
 
-Stop the container:
+Stop services:
 
 ```bash
-docker stop nodejs-api
+docker compose down
 ```
 
-Remove the container:
+---
 
-```bash
-docker rm nodejs-api
+## 🔄 CI/CD Pipeline – Jenkins
+
+A Jenkins pipeline automates the application build and verification process.
+
+### Pipeline Workflow
+
+1. GitHub source code checkout
+2. Project file verification
+3. Backend build
+4. Frontend build
+5. Automated verification
+
+GitHub webhook integration triggers the Jenkins pipeline when changes are pushed to the repository.
+
+### GitHub Actions CI Workflow
+
+A separate GitHub Actions workflow runs automatically on pushes and pull requests to the `main` branch.
+
+The workflow:
+- Sets up Node.js 20.
+- Starts a PostgreSQL 16 test database.
+- Installs dependencies using `npm ci`.
+- Initializes the test database.
+- Runs automated API tests using `npm test`.
+
+
+---
+
+## 🧪 Automated Testing
+
+Automated API tests are implemented to verify backend functionality.
+
+The test suite successfully passed **9 API tests** during project verification.
+
+Testing helps identify application defects and verify expected API behavior.
+
+---
+
+## 📊 Monitoring and Observability
+
+Prometheus and Grafana are integrated to monitor application health and visualize metrics.
+
+### Prometheus
+- Collects application metrics.
+- Monitors backend availability.
+- Tracks Prometheus target health.
+
+### Grafana
+- Provides a monitoring dashboard.
+- Visualizes backend monitoring information.
+- Displays backend failure alert states.
+
+### Email Alerting
+Email notifications are configured through Grafana alerting.
+
+The monitoring implementation was tested by simulating backend downtime and verifying that the alert entered the firing state and an email notification was received.
+
+### Monitoring Screenshots
+
+#### Grafana Dashboard
+
+![Grafana Dashboard](docs/screenshots/monitoring/grafana-dashboard.png)
+
+#### Prometheus Target – UP
+
+![Prometheus Target Up](docs/screenshots/monitoring/prometheus-target-up.png)
+
+#### Prometheus Target – DOWN
+
+![Prometheus Target Down](docs/screenshots/monitoring/prometheus-target-down.png)
+
+#### Grafana Backend Down Alert
+
+![Grafana Backend Down Firing](docs/screenshots/monitoring/grafana-backend-down-firing.png)
+
+#### Email Alert Notification
+
+![Backend Down Email](docs/screenshots/monitoring/backend-down-email.png)
+
+#### Email Configuration Test
+
+![Grafana Email Test Success](docs/screenshots/monitoring/grafana-email-test-success.png)
+
+---
+
+## ☁️ AWS Cloud Deployment
+
+The application was deployed using AWS container and database services.
+
+### AWS Services
+
+| AWS Service | Purpose |
+|---|---|
+| Amazon ECS Fargate | Runs frontend and backend containers |
+| Amazon ECR | Stores Docker images |
+| Amazon RDS | Hosts PostgreSQL database |
+| Amazon CloudWatch | Collects backend application logs |
+
+### Deployment Architecture
+
+```text
+                  AWS Cloud
+                      |
+                Amazon ECS
+                 (Fargate)
+                      |
+           -----------------------
+           |                     |
+           v                     v
+      Frontend Service     Backend Service
+           |                     |
+           |                     |
+           |                     v
+           |                Amazon RDS
+           |                PostgreSQL
+           |
+           v
+      User Browser
+
+      Amazon ECR
+      Docker Images
+
+      CloudWatch
+      Application Logs
 ```
 
-## 📚 Key Docker Concepts Demonstrated
+### AWS Deployment Screenshots
 
-* Docker Images
-* Docker Containers
-* Dockerfile
-* Docker Build
-* Port Mapping
-* Container Logs
-* `.dockerignore`
-* Containerized Application Deployment
+#### Application
+
+**Login Page**
+
+![Login Page](docs/screenshots/aws/01-login-page.png)
+
+**Registration Page**
+
+![Registration Page](docs/screenshots/aws/02-register-page.png)
+
+**Dashboard**
+
+![Dashboard](docs/screenshots/aws/03-dashboard.png)
+
+**Task Details**
+
+![Task Details](docs/screenshots/aws/04-task-details.png)
+
+#### AWS Infrastructure
+
+**ECS Backend Service**
+
+![ECS Backend Service](docs/screenshots/aws/05-ecs-backend-service.png)
+
+**ECS Frontend Service**
+
+![ECS Frontend Service](docs/screenshots/aws/06-ecs-frontend-service.png)
+
+**RDS PostgreSQL Database**
+
+![RDS Database](docs/screenshots/aws/07-rds-database.png)
+
+**ECR Repositories**
+
+![ECR Repositories](docs/screenshots/aws/08-ecr-repositories.png)
+
+**CloudWatch Backend Logs**
+
+![CloudWatch Logs](docs/screenshots/aws/09-cloudwatch-logs.png)
+
+---
+
+## 📂 Project Structure
+
+```text
+nodejs-dockerized-api/
+├── src/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── routes/
+│   ├── services/
+│   └── validators/
+├── frontend/
+│   ├── public/
+│   └── src/
+├── database/
+├── tests/
+├── docs/
+│   └── screenshots/
+│       ├── aws/
+│       └── monitoring/
+├── monitoring/
+│   └── prometheus/
+├── Dockerfile
+├── docker-compose.yml
+├── Jenkinsfile
+├── package.json
+├── .gitignore
+└── README.md
+```
+
+---
+
+## 🔐 Security Considerations
+
+- Database credentials are kept out of public documentation.
+- AWS security groups restrict database access.
+- Environment variables are used for sensitive configuration.
+- Secrets and credentials should not be committed to GitHub.
+- Production deployments should use HTTPS and appropriate access controls.
+
+---
+
+## 📚 Key DevOps Concepts Demonstrated
+
+- Application Containerization
+- Docker Image Management
+- Multi-Container Application Deployment
+- CI/CD Pipeline Automation
+- GitHub Webhook Integration
+- Automated Testing
+- AWS Cloud Deployment
+- Container Orchestration with ECS Fargate
+- Managed Database Hosting
+- Application Logging
+- Metrics Collection
+- Monitoring Dashboards
+- Alerting and Failure Detection
+
+---
 
 ## 🔗 Project Repository
 
-GitHub:
+[GitHub – Node.js Dockerized API](https://github.com/Hirunodhya2003/nodejs-dockerized-api)
 
-https://github.com/Hirunodhya2003/nodejs-dockerized-api
+---
 
 ## 👨‍💻 Author
 
-**Hirunodhya**
+**Kavishi Hirunodhya**
 
-Cloud & DevOps Enthusiast | AWS | Docker | Terraform | CI/CD
-
-<!-- GitHub webhook test -->
+Cloud & DevOps Enthusiast | AWS | Docker | Jenkins | CI/CD | Prometheus | Grafana

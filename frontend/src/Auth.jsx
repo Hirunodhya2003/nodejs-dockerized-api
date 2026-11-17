@@ -8,7 +8,7 @@ function Auth({ onLogin }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const API_URL = "http://localhost:3002/api/auth";
+  const API_URL = "http://13.63.35.144:3001/api/auth";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

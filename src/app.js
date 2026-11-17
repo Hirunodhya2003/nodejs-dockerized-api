@@ -29,12 +29,8 @@ const httpRequestDuration = new client.Histogram({
 });
 
 // Middleware
-app.use(cors({
-  origin: [
-    "http://localhost:5176",
-    "http://localhost:5177"
-  ]
-}));
+app.use(cors());
+
 
 app.use(express.json());
 

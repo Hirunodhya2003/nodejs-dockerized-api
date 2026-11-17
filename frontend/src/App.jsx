@@ -3,7 +3,7 @@ import "./App.css";
 import Auth from "./Auth";
 
 
-const API_URL = "http://localhost:3002/api/tasks";
+const API_URL = "http://13.63.35.144:3001/api/tasks";
 const getSavedUser = () => {
   try {
     return JSON.parse(localStorage.getItem("user") || "null");
